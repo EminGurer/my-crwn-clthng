@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
 } from 'firebase/auth';
@@ -56,10 +56,25 @@ export const createUserDocumentFromAuth = async (
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return;
+  if (!email || !password) {
+    alert('Email or password is missing');
+    return;
+  }
   if (password.length < 6) {
     alert('password must be at least 6 character long');
     return;
   }
   return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) {
+    alert('Email or password is missing');
+    return;
+  }
+  if (password.length < 6) {
+    alert('password must be at least 6 character long');
+    return;
+  }
+  return await signInWithEmailAndPassword(auth, email, password);
 };

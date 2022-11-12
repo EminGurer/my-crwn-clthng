@@ -3,6 +3,7 @@ import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils';
+import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 import './sign-up-form.styles.scss';
 
@@ -36,7 +37,7 @@ const SignUpForm = () => {
       );
       const { user } = response;
       if (!user) return;
-      const userDocRef = await createUserDocumentFromAuth(user, {
+      await createUserDocumentFromAuth(user, {
         displayName,
       });
       resetFormFields();
@@ -48,6 +49,8 @@ const SignUpForm = () => {
 
   return (
     <div className='sign-up-form-container'>
+      <h2>I do not have an account</h2>
+      <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
         <FormInput
           label='Display Name'
@@ -81,7 +84,7 @@ const SignUpForm = () => {
           name='confirmPassword'
           value={confirmPassword}
         />
-        <button type='submit'>Sign Up</button>
+        <Button buttonType='inverted'>Sign Up</Button>
       </form>
     </div>
   );
