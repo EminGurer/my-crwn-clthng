@@ -7,12 +7,8 @@ import { UserContext } from '../../contexts/user.context';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import './navigation.styles.scss';
 const Navigation = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-  console.log('current user in navigation is', currentUser);
-  const signOutHandler = async () => {
-    await signOutUser();
-    setCurrentUser(null);
-  };
+  const { currentUser } = useContext(UserContext);
+
   return (
     <Fragment>
       <div className='navigation'>
@@ -24,7 +20,7 @@ const Navigation = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <span className='nav-link' onClick={signOutHandler}>
+            <span className='nav-link' onClick={signOutUser}>
               Sign Out
             </span>
           ) : (
