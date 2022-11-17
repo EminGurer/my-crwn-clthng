@@ -1,0 +1,19 @@
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 400px;
+  h2 {
+    text-align: center;
+  }
+  .checkout-items {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    min-width: 400px;
+    align-self: center;
+  }
+  .checkout-info {
+    align-self: flex-end;
+  }
+}

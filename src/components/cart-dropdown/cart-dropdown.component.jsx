@@ -7,12 +7,13 @@ import { useNavigate } from 'react-router-dom';
 
 const CartDropdown = () => {
   const navigate = useNavigate();
+  const { cartItems, isCartOpen, setIsCartOpen } = useContext(CartContext);
 
-  const goToCheckoutHandler = () => {
+  const goToCheckoutPage = () => {
     navigate('/checkout');
+    if (isCartOpen) setIsCartOpen(!isCartOpen);
   };
 
-  const { cartItems } = useContext(CartContext);
   return (
     <div className='cart-dropdown-container'>
       <div className='cart-items'>
@@ -20,7 +21,7 @@ const CartDropdown = () => {
           <CartItem key={item.id} item={item} />
         ))}
       </div>
-      <Button onClick={goToCheckoutHandler}>Checkout</Button>
+      <Button onClick={goToCheckoutPage}>Checkout</Button>
     </div>
   );
 };
