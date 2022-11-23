@@ -1,22 +1,18 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
 
 export const CartContext = createContext({
   isCartOpen: false,
-  setIsCartOpen: () => {},
   cartItems: [],
+  count: 0,
+  cartAmount: 0,
+  setIsCartOpen: () => {},
   addItemToCart: () => {},
   decrementItemQuantity: () => {},
   removeItemFromCart: () => {},
-  count: 0,
-  cartAmount: 0,
 });
-
 const CART_ACTION_TYPES = {
-  ADD_ITEM: 'ADD_ITEM',
-  REMOVE_ITEM: 'REMOVE_ITEM',
-  DELETE_ITEM: 'DELETE_ITEM',
   TOGGLE_CART: 'TOGGLE_CART',
-  UPDATE_CART_COUNT_AND_AMOUNT: 'UPDATE_CART_COUNT_AND_AMOUNT',
+  SET_CART_ITEMS: 'SET_CART_ITEMS',
 };
 const INITIAL_STATE = {
   isCartOpen: false,
@@ -24,46 +20,25 @@ const INITIAL_STATE = {
   count: 0,
   cartAmount: 0,
 };
+
 const cartReducer = (state, action) => {
   const { type, payload } = action;
-  const { cartItems } = state;
   switch (type) {
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return {
+        ...state,
+        ...payload,
+      };
     case CART_ACTION_TYPES.TOGGLE_CART:
       return {
         ...state,
         isCartOpen: payload,
       };
-    case CART_ACTION_TYPES.ADD_ITEM:
-      return {
-        ...state,
-        cartItems: helper(cartItems, payload, 'increment'),
-      };
-    case CART_ACTION_TYPES.REMOVE_ITEM:
-      return {
-        ...state,
-        cartItems: helper(cartItems, payload, 'decrement'),
-      };
-    case CART_ACTION_TYPES.DELETE_ITEM:
-      const newCartItems = cartItems.filter(
-        (cartItem) => cartItem.id !== payload.id
-      );
-      return {
-        ...state,
-        cartItems: newCartItems,
-      };
-    case CART_ACTION_TYPES.UPDATE_CART_COUNT_AND_AMOUNT:
-      return {
-        ...state,
-        count: payload.reduce((acc, item) => acc + item.quantity, 0),
-        cartAmount: payload.reduce(
-          (acc, item) => acc + item.quantity * item.price,
-          0
-        ),
-      };
     default:
-      throw new Error(`Unhandled type ${type} in userReducer`);
+      throw new Error(`Undefined type for cart reducer type: ${type}`);
   }
 };
+
 const helper = (cartItems, item, operation) => {
   const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
   if (operation === 'increment') {
@@ -93,27 +68,38 @@ export const CartProvider = ({ children }) => {
     cartReducer,
     INITIAL_STATE
   );
+  const updateCartItems = (newCartItems) => {
+    const newCount = newCartItems.reduce((acc, item) => acc + item.quantity, 0);
+    const newCartAmount = newCartItems.reduce(
+      (acc, item) => acc + item.quantity * item.price,
+      0
+    );
+    dispatch({
+      type: CART_ACTION_TYPES.SET_CART_ITEMS,
+      payload: {
+        cartItems: newCartItems,
+        count: newCount,
+        cartAmount: newCartAmount,
+      },
+    });
+  };
   const setIsCartOpen = () => {
     dispatch({ type: CART_ACTION_TYPES.TOGGLE_CART, payload: !isCartOpen });
   };
-  const setCartCountAndAmount = (cartItems) => {
-    dispatch({
-      type: CART_ACTION_TYPES.UPDATE_CART_COUNT_AND_AMOUNT,
-      payload: cartItems,
-    });
-  };
   const addItemToCart = (item) => {
-    dispatch({ type: CART_ACTION_TYPES.ADD_ITEM, payload: item });
+    const newCartItems = helper(cartItems, item, 'increment');
+    updateCartItems(newCartItems);
   };
   const removeItemFromCart = (item) => {
-    dispatch({ type: CART_ACTION_TYPES.REMOVE_ITEM, payload: item });
+    const newCartItems = helper(cartItems, item, 'decrement');
+    updateCartItems(newCartItems);
   };
   const deleteItemFromCart = (item) => {
-    dispatch({ type: CART_ACTION_TYPES.DELETE_ITEM, payload: item });
+    const newCartItems = cartItems.filter(
+      (cartItem) => cartItem.id !== item.id
+    );
+    updateCartItems(newCartItems);
   };
-  useEffect(() => {
-    setCartCountAndAmount(cartItems);
-  }, [cartItems]);
 
   const value = {
     isCartOpen,
