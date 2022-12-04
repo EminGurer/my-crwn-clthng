@@ -15,22 +15,9 @@ import Checkout from './routes/checkout/checkout.component';
 import { setCurrentUser } from './redux-store/user/user.action';
 
 const App = () => {
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   console.log('hello');
-  //   const unsubscribe = onAuthStateChangedListener((user) => {
-  //     dispatch(setCurrentUser(user));
-  //     if (user) createUserDocumentFromAuth(user);
-  //     if (user) console.log(user);
-  //   });
-  //   console.log(unsubscribe);
-  //   return unsubscribe;
-  // }, []);
   const dispatch = useDispatch();
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
+    const unsubscribe = onAuthStateChangedListener(async (user) => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
@@ -38,6 +25,7 @@ const App = () => {
     });
 
     return unsubscribe;
+    // eslint-disable-next-line
   }, []);
   return (
     <Routes>
@@ -52,5 +40,3 @@ const App = () => {
 };
 
 export default App;
-
-//left at 104
