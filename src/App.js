@@ -13,17 +13,10 @@ import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
 import { setCurrentUser } from './redux-store/user/user.slice';
-import { setCategoriesMap } from './redux-store/categories/categories.slice';
-import { getCategoriesAndDocuments } from './utils/firebase/firebase.utils';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const getCategoriesMap = async () => {
-      const categoryMap = await getCategoriesAndDocuments();
-      dispatch(setCategoriesMap(categoryMap));
-    };
-    getCategoriesMap();
     const unsubscribe = onAuthStateChangedListener(async (user) => {
       if (user) {
         createUserDocumentFromAuth(user);
