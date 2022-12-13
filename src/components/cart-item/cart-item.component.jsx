@@ -1,10 +1,13 @@
 import './cart-item.styles.scss';
-import { useContext } from 'react';
-import { CartContext } from '../../contexts/cart.context';
+import {
+  addItemToCart,
+  removeItemFromCart,
+  deleteItemFromCart,
+} from '../../redux-store/cart/cart.slice';
+import { useDispatch } from 'react-redux';
 
 const CartItem = ({ item }) => {
-  const { removeItemFromCart, addItemToCart, deleteItemFromCart } =
-    useContext(CartContext);
+  const dispatch = useDispatch();
   const { name, imageUrl, price, quantity } = item;
 
   return (
@@ -17,9 +20,9 @@ const CartItem = ({ item }) => {
         </span>
       </div>
       <div className='item-buttons'>
-        <button onClick={() => addItemToCart(item)}>+</button>
-        <button onClick={() => removeItemFromCart(item)}>-</button>
-        <button onClick={() => deleteItemFromCart(item)}>x</button>
+        <button onClick={() => dispatch(addItemToCart(item))}>+</button>
+        <button onClick={() => dispatch(removeItemFromCart(item))}>-</button>
+        <button onClick={() => dispatch(deleteItemFromCart(item))}>x</button>
       </div>
     </div>
   );
