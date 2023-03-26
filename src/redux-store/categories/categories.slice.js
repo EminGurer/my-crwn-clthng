@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCategories } from './categories.thunk';
 
 const initialState = {
   categories: [],
@@ -10,22 +9,24 @@ const initialState = {
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState: initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
-    builder.addCase(fetchCategories.pending, (state) => {
+  reducers: {
+    fetchCategoriesStart(state, action) {
       state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(fetchCategories.fulfilled, (state, action) => {
+    },
+    fetchCategoriesSuccess(state, action) {
       state.isLoading = false;
       state.categories = action.payload;
-    });
-    builder.addCase(fetchCategories.rejected, (state, action) => {
+    },
+    fetchCategoriesFail(state, action) {
       state.isLoading = false;
-      state.error = action.error.message;
-    });
+      state.error = action.payload;
+    },
   },
 });
 
+export const {
+  fetchCategoriesStart,
+  fetchCategoriesSuccess,
+  fetchCategoriesFail,
+} = categoriesSlice.actions;
 export default categoriesSlice.reducer;

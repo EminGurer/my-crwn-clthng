@@ -4,15 +4,14 @@ import { useDispatch } from 'react-redux';
 
 import CategoriesPreview from '../../components/categories-preview/categories-preview.component';
 import Category from '../category/category.component';
-import { fetchCategories } from '../../redux-store/categories/categories.thunk';
-
 import './shop.styles.scss';
+import { fetchCategoriesStart } from '../../redux-store/categories/categories.slice';
 
 const Shop = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategoriesStart());
     //eslint-disable-next-line
   }, []);
   return (
