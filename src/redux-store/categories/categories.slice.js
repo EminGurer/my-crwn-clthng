@@ -14,10 +14,12 @@ const categoriesSlice = createSlice({
       state.isLoading = true;
     },
     fetchCategoriesSuccess(state, action) {
-      state.isLoading = false;
       state.categories = action.payload;
+      state.isLoading = false;
+      state.error = null;
     },
     fetchCategoriesFail(state, action) {
+      state.categories = [];
       state.isLoading = false;
       state.error = action.payload;
     },
