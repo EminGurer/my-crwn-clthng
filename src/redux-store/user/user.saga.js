@@ -10,11 +10,17 @@ import {
   googleSignInStart,
   emailSignInStart,
   signUpStart,
+  signUpSuccess,
+  signUpFail,
+  signOutStart,
+  signOutSuccess,
+  signOutFail,
 } from './user.slice';
 import {
   createUserDocumentFromAuth,
   signInWithGooglePopup,
   createAuthUserWithEmailAndPassword,
+  signOutUser,
 } from '../../utils/firebase/firebase.utils';
 
 export function* getSnapshotFromUserAuth(userAuth, additionalInfo) {
@@ -77,18 +83,44 @@ export function* onCheckUserSession() {
 }
 
 export function* signUp({ payload: { email, password, displayName } }) {
-  const response = yield call(
-    createAuthUserWithEmailAndPassword,
-    email,
-    password
-  );
-  const { user } = response;
-  if (!user) return;
-  yield call(createUserDocumentFromAuth, user, { displayName });
+  try {
+    const { user } = yield call(
+      createAuthUserWithEmailAndPassword,
+      email,
+      password
+    );
+    console.log(user);
+    if (!user) return;
+    yield put(signUpSuccess({ user, displayName }));
+  } catch (error) {
+    put(signUpFail(error));
+  }
+}
+
+export function* signInAfterSignUp({ payload: { user, displayName } }) {
+  yield call(getSnapshotFromUserAuth, user, { displayName });
 }
 
 export function* onSignUpStart() {
   yield takeLatest(signUpStart, signUp);
+}
+
+export function* onSignUpSuccess() {
+  yield takeLatest(signUpSuccess, signInAfterSignUp);
+}
+
+export function* signOut() {
+  console.log('signOut called');
+  try {
+    yield call(signOutUser);
+    yield put(signOutSuccess());
+  } catch (error) {
+    yield put(signOutFail(error));
+  }
+}
+
+export function* onSignOutStart() {
+  yield takeLatest(signOutStart, signOut);
 }
 
 export function* userSagas() {
@@ -97,17 +129,7 @@ export function* userSagas() {
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
     call(onSignUpStart),
+    call(onSignUpSuccess),
+    call(onSignOutStart),
   ]);
 }
-
-/*
-const response = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      const { user } = response;
-      if (!user) return;
-      await createUserDocumentFromAuth(user, {
-        displayName,
-      });
-*/

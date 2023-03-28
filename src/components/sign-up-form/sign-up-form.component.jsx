@@ -33,7 +33,6 @@ const SignUpForm = () => {
     try {
       dispatch(signUpStart({ email, password, displayName }));
       resetFormFields();
-      alert('User is created');
     } catch (error) {
       console.log('There is an error creating auth user', error);
     }
