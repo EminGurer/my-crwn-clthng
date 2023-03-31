@@ -49,7 +49,6 @@ export function* isUserAuthenticated() {
 export function* signInWithGoogle() {
   try {
     const { user } = yield call(signInWithGooglePopup);
-    console.log('google sign action');
     yield call(getSnapshotFromUserAuth, user);
   } catch (error) {
     put(signInFail(error));
