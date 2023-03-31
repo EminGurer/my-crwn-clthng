@@ -1,9 +1,13 @@
 import './button.styles.scss';
 
-const Button = ({ children, buttonType, ...otherProps }) => {
+const Button = ({ children, isLoading, buttonType, ...otherProps }) => {
   return (
-    <button className={`button-container ${buttonType}`} {...otherProps}>
-      {children}
+    <button
+      disabled={isLoading}
+      className={`button-container ${buttonType}`}
+      {...otherProps}
+    >
+      {isLoading ? 'Processing...' : children}
     </button>
   );
 };
