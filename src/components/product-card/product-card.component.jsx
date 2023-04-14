@@ -1,10 +1,10 @@
 import Button from '../button/button.component';
 import './product-card.styles.scss';
 import { addItemToCart } from '../../redux-store/cart/cart.slice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux-store/redux-hooks';
 
 const ProductCard = ({ product }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { imageUrl, name, price } = product;
 
   const addToCartHandler = () => {

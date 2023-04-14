@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../redux-store/redux-hooks';
 
 import { selectCartAmount } from '../../redux-store/cart/cart.selector';
 import { selectCurrentUser } from '../../redux-store/user/user.selector';
@@ -11,8 +11,8 @@ import './payment-form.styles.scss';
 const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const amount = useSelector(selectCartAmount);
-  const currentUser = useSelector(selectCurrentUser);
+  const amount = useAppSelector(selectCartAmount);
+  const currentUser = useAppSelector(selectCurrentUser);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const paymentHandler = async (e) => {

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 import './sign-in-form.styles.scss';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux-store/redux-hooks';
 import {
   googleSignInStart,
   emailSignInStart,
@@ -17,7 +17,7 @@ const defaultFormFields = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChange = (event) => {
     const { name, value } = event.target;

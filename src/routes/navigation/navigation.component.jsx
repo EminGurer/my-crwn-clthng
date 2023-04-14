@@ -1,7 +1,6 @@
 import { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { useAppDispatch, useAppSelector } from '../../redux-store/redux-hooks';
 import CartIcon from '../../components/cart-icon/cart-icon.component';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import './navigation.styles.scss';
@@ -9,10 +8,11 @@ import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component
 import { selectCurrentUser } from '../../redux-store/user/user.selector';
 import { selectIsCartOpen } from '../../redux-store/cart/cart.selector';
 import { signOutStart } from '../../redux-store/user/user.slice';
+
 const Navigation = () => {
-  const dispatch = useDispatch();
-  const currentUser = useSelector(selectCurrentUser);
-  const isCartOpen = useSelector(selectIsCartOpen);
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(selectCurrentUser);
+  const isCartOpen = useAppSelector(selectIsCartOpen);
   const signOutUser = () => dispatch(signOutStart());
 
   return (

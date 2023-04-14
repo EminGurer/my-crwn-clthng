@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from './redux-store/redux-hooks';
 import { Routes, Route } from 'react-router-dom';
 
 import Home from './routes/home/home.component';
@@ -10,7 +10,7 @@ import Checkout from './routes/checkout/checkout.component';
 import { checkUserSession } from './redux-store/user/user.slice';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(checkUserSession());
     // eslint-disable-next-line

@@ -4,10 +4,10 @@ import {
   removeItemFromCart,
   deleteItemFromCart,
 } from '../../redux-store/cart/cart.slice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux-store/redux-hooks';
 
 const CartItem = ({ item }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { name, imageUrl, price, quantity } = item;
 
   return (
