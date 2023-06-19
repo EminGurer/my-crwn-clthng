@@ -6,7 +6,7 @@ import { selectCartAmount } from '../../redux-store/cart/cart.selector';
 import { selectCurrentUser } from '../../redux-store/user/user.selector';
 
 import Button from '../button/button.component';
-import './payment-form.styles.scss';
+import { PaymentFormContainer } from './payment-form.styles.tsx';
 
 const PaymentForm = () => {
   const stripe = useStripe();
@@ -60,7 +60,7 @@ const PaymentForm = () => {
   };
 
   return (
-    <div className='payment-form-container'>
+    <PaymentFormContainer>
       <form onSubmit={paymentHandler} className='payment-form'>
         <CardElement className='cart' />
         <Button
@@ -71,7 +71,7 @@ const PaymentForm = () => {
           Pay Now
         </Button>
       </form>
-    </div>
+    </PaymentFormContainer>
   );
 };
 

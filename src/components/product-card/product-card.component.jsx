@@ -1,5 +1,5 @@
 import Button from '../button/button.component';
-import './product-card.styles.scss';
+import { ProductCardContainer, Footer } from './product-card.styles.tsx';
 import { addItemToCart } from '../../redux-store/cart/cart.slice';
 import { useDispatch } from 'react-redux';
 
@@ -11,16 +11,16 @@ const ProductCard = ({ product }) => {
     dispatch(addItemToCart(product));
   };
   return (
-    <div className='product-card-container'>
+    <ProductCardContainer>
       <img src={imageUrl} alt={name} />
-      <div className='footer'>
+      <Footer>
         <span className='name'>{name}</span>
         <span className='price'>{price}</span>
-      </div>
+      </Footer>
       <Button onClick={addToCartHandler} buttonType='inverted'>
         Add to cart
       </Button>
-    </div>
+    </ProductCardContainer>
   );
 };
 

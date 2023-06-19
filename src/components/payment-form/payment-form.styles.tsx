@@ -1,4 +1,6 @@
-.payment-form-container {
+import styled from 'styled-components';
+
+export const PaymentFormContainer = styled.div`
   padding-top: 3rem;
   margin: auto;
   .payment-form {
@@ -7,4 +9,4 @@
       margin: 2rem auto;
     }
   }
-}
+`;

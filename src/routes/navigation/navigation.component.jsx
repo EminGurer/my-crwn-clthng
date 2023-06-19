@@ -1,10 +1,15 @@
 import { Fragment } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import CartIcon from '../../components/cart-icon/cart-icon.component';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
-import './navigation.styles.scss';
+import {
+  LogoContainer,
+  NavLink,
+  NavLinksContainer,
+  NavigationContainer,
+} from './navigation.styles.tsx';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 import { selectCurrentUser } from '../../redux-store/user/user.selector';
 import { selectIsCartOpen } from '../../redux-store/cart/cart.selector';
@@ -17,27 +22,23 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <div className='navigation'>
-        <Link className='nav-logo-container' to='/'>
+      <NavigationContainer>
+        <LogoContainer to='/'>
           <Logo />
-        </Link>
-        <div className='nav-links-container'>
-          <Link className='nav-link' to='/shop'>
-            SHOP
-          </Link>
+        </LogoContainer>
+        <NavLinksContainer>
+          <NavLink to='/shop'>SHOP</NavLink>
           {currentUser ? (
-            <span className='nav-link' onClick={signOutUser}>
+            <NavLink as='span' onClick={signOutUser}>
               Sign Out
-            </span>
+            </NavLink>
           ) : (
-            <Link className='nav-link' to='/auth'>
-              SIGN IN
-            </Link>
+            <NavLink to='/auth'>SIGN IN</NavLink>
           )}
           <CartIcon />
-        </div>
+        </NavLinksContainer>
         {isCartOpen && <CartDropdown />}
-      </div>
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   );

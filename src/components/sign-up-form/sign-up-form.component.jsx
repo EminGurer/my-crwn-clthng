@@ -4,7 +4,7 @@ import { signUpStart } from '../../redux-store/user/user.slice';
 
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
-import './sign-up-form.styles.scss';
+import { FormContainer } from './sign-up-form.styles.tsx';
 
 const defaultFormFields = {
   displayName: '',
@@ -39,7 +39,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className='sign-up-form-container'>
+    <FormContainer>
       <h2>I do not have an account</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -77,7 +77,7 @@ const SignUpForm = () => {
         />
         <Button buttonType='inverted'>Sign Up</Button>
       </form>
-    </div>
+    </FormContainer>
   );
 };
 
